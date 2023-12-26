@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from users.views import index
+from visitors.views import register_visitor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,11 @@ urlpatterns = [
         "",
         index,
         name="index"
+    ),
+    
+    path(
+        "registrar-visitante",
+        register_visitor,
+        name="register_visitor"
     )
 ]
