@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    'users'
+    'users',
+    'concierge'
 ]
 
 MIDDLEWARE = [
