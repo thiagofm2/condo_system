@@ -1,5 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse 
+from visitors.models import Visitor
 
 def index(request):
-    return HttpResponse("Hello World!")
+    
+    all_visitors = Visitor.objects.all()
+    
+    context = {
+        "page_name": "Dashboard homepage",
+        "visitors_list": all_visitors
+    }
+    
+    return render(request, "index.html", context)
