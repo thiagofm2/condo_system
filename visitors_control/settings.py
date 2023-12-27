@@ -45,6 +45,10 @@ INSTALLED_APPS += [
     'visitors'
 ]
 
+INSTALLED_APPS += [
+    'widget_tweaks'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
