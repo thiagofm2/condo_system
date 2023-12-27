@@ -59,6 +59,32 @@ class Visitor(models.Model):
         on_delete=models.PROTECT
     )
     
+    ## Criação dos métodos que retornam uma mensagem personalizada caso não haja dados que preencham atributos
+    
+    def get_departure_time(self):                               ## Os métodos são basicamente funções que fazem referência ao conteúdo da própria classe, passando o "self" como argumento
+        if(self.departure_time):                                ## Como padrão de organização, os métodos que validam atributos começam com "get_", fazemos a verificação do campo e retornamos uma mensagem caso esteja vazio
+            return self.departure_time
+        else:
+            return "Departure time not registred."
+    
+    def get_authorization_time(self):
+        if(self.authorization_time):
+            return self.authorization_time
+        else:
+            return "Visitor waiting authorization."
+        
+    def get_responsible_resident(self):
+        if(self.responsible_resident):
+            return self.responsible_resident
+        else:
+            return "Visitor waiting authorization"
+        
+    def get_license_plate(self):
+        if(self.license_plate):
+            return self.license_plate
+        else:
+            return "Vistior was not using a car."
+    
     class Meta:
         verbose_name="Visitor"
         verbose_name_plural="Visitors"

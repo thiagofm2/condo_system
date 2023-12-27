@@ -4,6 +4,14 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Página Inicial</h1>
+        <a href="{% url 'register_visitor' %}" class="btn btn-primary btn-icon-split btn-sm">
+            <span class="text">
+                Registrar visitante
+            </span>
+            <span class="icon text-white-50">
+                <i class="fas fa-user-plus"></i>
+            </span>
+        </a>
     </div>
 
     {% if messages %}
@@ -105,10 +113,10 @@
                                 <td>{{visitor.complete_name}}</td>
                                 <td>{{visitor.document}}</td>
                                 <td>{{visitor.arrival_time}}</td>
-                                <td>{{visitor.departure_time}}</td>
-                                <td>{{visitor.responsible_resident}}</td>
+                                <td>{{visitor.get_departure_time}}</td>
+                                <td>{{visitor.get_responsible_resident}}</td>
                                 <td>
-                                    <a href="#">
+                                    <a href="{% url 'visitor_info' id=visitor.id %}">
                                         Ver informações
                                     </a>
                                 </td>
