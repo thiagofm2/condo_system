@@ -26,3 +26,17 @@ class VisitorsForm(forms.ModelForm):        ## Criamos uma classe que será subc
                 "required": "That field is required."
             }
         }
+
+class AuthorizeVisitor(forms.ModelForm):
+    responsible_resident = forms.CharField(required=True)
+    
+    class Meta:       
+        model = Visitor
+        fields = [
+            "responsible_resident"
+        ]
+        error_messages= {
+            "responsible_resident":{
+                "required": "The responsible resident for authorization is required."
+            }
+        }

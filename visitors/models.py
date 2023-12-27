@@ -1,6 +1,19 @@
 from django.db import models
 
 class Visitor(models.Model):
+    
+    STATUS_OPTIONS = [
+        ("WAITING", "Waiting for authorization"),
+        ("VISITING", "Visiting"),
+        ("LEAVE", "Visitor left")
+    ]
+    
+    status = models.CharField(
+        verbose_name="Status of visitor",
+        max_length=8,
+        choices= STATUS_OPTIONS,
+        default="WAITING"
+    )
     complete_name = models.CharField(
         verbose_name="Visitor's name",  
         max_length=200

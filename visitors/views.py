@@ -4,7 +4,10 @@ from django.shortcuts import (
 )
 
 from visitors.models import Visitor
-from visitors.forms import VisitorsForm
+from visitors.forms import (
+    VisitorsForm, AuthorizeVisitor
+)
+from django.utils import timezone
 
 def register_visitor(request):
     form = VisitorsForm()
@@ -39,9 +42,32 @@ def visitor_info(request, id):
         id=id
     )
     
+    form = AuthorizeVisitor()
+    
+    if request.method == "POST":
+        form = AuthorizeVisitor(
+            request.POST,
+            instance=find_visitor
+        )
+        
+        if form.is_valid():
+            visitor_response = form.save(commit=False)
+            visitor_response.status = "VISITING"
+            visitor_response.authorization_time = timezone.now()
+            
+            visitor_response.save() 
+            
+            messages.success(
+                request,
+                "The visitor was authorized."
+            )
+            
+            return redirect("index")
+    
     context = {
         "page_name":"Visitor's Info",
-        "visitor_response":find_visitor
+        "visitor_response":find_visitor,
+        "form": form
     }
     
     return render(request, "informacoes_visitante.html", context)
