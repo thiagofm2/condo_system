@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import index
-from visitors.views import (register_visitor, visitor_info)
+from dashboard.views import index
+from visitors.views import (register_visitor, visitor_info, finish_visit)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,5 +38,11 @@ urlpatterns = [
         "visitor/<int:id>/",            ## Precisamos indicar entre <> o tipo do dado que será utilizado na query da url, e qual o nome dele.
         visitor_info,
         name="visitor_info"
+    ),
+    
+    path(
+        "visitor/<int:id>/finish",
+        finish_visit,
+        name="finish_visit"
     )
 ]

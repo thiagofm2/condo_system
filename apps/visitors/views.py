@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import (
     render, redirect, get_object_or_404
 )
-
+from django.http import HttpResponseNotAllowed
 from visitors.models import Visitor
 from visitors.forms import (
     VisitorsForm, AuthorizeVisitor
@@ -71,3 +71,28 @@ def visitor_info(request, id):
     }
     
     return render(request, "informacoes_visitante.html", context)
+
+
+def finish_visit(request, id):
+    if request.method == "POST":
+        find_visitor = get_object_or_404(
+            Visitor,
+            id=id
+        )
+        
+        find_visitor.status = "LEAVE"
+        find_visitor.departure_time = timezone.now()
+        
+        find_visitor.save()
+        
+        messages.success(
+            request,
+            "The visitor leaves the condo."
+        )
+        
+        return redirect("index")
+    else:
+        return HttpResponseNotAllowed(
+            ["POST"],
+            "Not authorized method"
+        )

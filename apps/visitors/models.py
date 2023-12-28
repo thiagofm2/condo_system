@@ -98,6 +98,20 @@ class Visitor(models.Model):
         else:
             return "Vistior was not using a car."
     
+    def get_document(self):
+        if(self.document):
+            cpf = str(self.document)
+            
+            cpf_firstPart = cpf[0:3]
+            cpf_secondPart = cpf[3:6]
+            cpf_thirdPart = cpf[6:9]
+            cpf_fourthPart = cpf[9:]
+            
+            cpf_formated = f'{cpf_firstPart}.{cpf_secondPart}.{cpf_thirdPart}-{cpf_fourthPart}'
+            
+            return cpf_formated
+            
+            
     class Meta:
         verbose_name="Visitor"
         verbose_name_plural="Visitors"

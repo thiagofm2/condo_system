@@ -7,6 +7,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">{{ nome_pagina }}</h1>
         <div>
+            {% if visitor_response.status == "WAITING" %}
             <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#modal">
                 <span class="text">
                     Autorizar visitante
@@ -15,6 +16,18 @@
                     <i class="fas fa-user-check"></i>
                 </span>
             </a>
+            {% endif %}
+
+            {% if visitor_response.status == "VISITING" %}
+            <a href="#" class="btn btn-warning btn-icon-split btn-sm" data-toggle="modal" data-target="#modal2">
+                <span class="text">
+                    Finalizar visitor
+                </span>
+                <span class="icon text-white-50">
+                    <i class="fas fa-door-open"></i>
+                </span>
+            </a>
+            {% endif %}
         </div>
     </div>
     
@@ -26,13 +39,18 @@
         
             <form>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
+                        <label>Status do visitante</label>
+                        <input type="text" class="form-control" value="{{visitor_response.get_status_display}}" disabled>
+                    </div>
+
+                    <div class="form-group col-md-4">
                         <label>Horário de chegada</label>
                         <input type="text" class="form-control" value="{{visitor_response.arrival_time}}" disabled>
                     </div>
 
-                    <div class="form-group col-md-6">
-                        <label>Número da casa a ser visitada</label>
+                    <div class="form-group col-md-2">
+                        <label>Número da casa</label>
                         <input type="text" class="form-control" value="{{visitor_response.home_number}}" disabled>
                     </div>
                 </div>
@@ -68,7 +86,7 @@
 
                     <div class="form-group col-md-6">
                         <label>CPF</label>
-                        <input type="text" class="form-control" value="{{visitor_response.document}}" disabled>
+                        <input type="text" class="form-control" value="{{visitor_response.get_document}}" disabled>
                     </div>
                 </div>
 
@@ -92,7 +110,7 @@
             </p>
         
             <div class="mr-1 text-right">
-                <a href="#" class="btn btn-secondary text-white" type="button">
+                <a href="{% url 'index' %}" class="btn btn-secondary text-white" type="button">
                     <span class="text">Voltar</span>
                 </a>
             </div>
@@ -124,6 +142,39 @@
                             <button type="submit" class="btn btn-primary">Autorizar entrada</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Finalizar visita</h5>
+                        
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <h5 class="mb-3">
+                            Realmente deseja encerrar a visita?
+                        </h5>
+    
+                        <form method="post" action="{% url 'finish_visit' id=visitor_response.id %}">
+                            {% csrf_token %}
+    
+                            <input hidden>
+    
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Finalizar visita</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
