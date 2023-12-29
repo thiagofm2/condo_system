@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from visitors.models import Visitor
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def index(request):
     
     all_visitors = Visitor.objects.order_by(
